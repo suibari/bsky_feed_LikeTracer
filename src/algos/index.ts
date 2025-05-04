@@ -3,12 +3,12 @@ import {
   QueryParams,
   OutputSchema as AlgoOutput,
 } from '../lexicon/types/app/bsky/feed/getFeedSkeleton.js'
-import * as likesBack from './likesBack.js'
+import * as likeTracer from './likeTracer.js'
 
 type AlgoHandler = (ctx: AppContext, params: QueryParams, requesterDid: string) => Promise<AlgoOutput>
 
 const algos: Record<string, AlgoHandler> = {
-  [likesBack.shortname]: likesBack.handler,
+  [likeTracer.shortname]: likeTracer.handler,
 }
 
 export default algos

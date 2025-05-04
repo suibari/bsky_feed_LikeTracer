@@ -30,16 +30,17 @@ export class JetstreamSubscription {
   }
 
   private async handleCreateEvent(evt: CommitCreateEvent<any>) {
+    const did = evt.did.toString();
     const record = evt.commit.record as Record
     const subjectUri = record.subject.uri
-    const likedDid = subjectUri.match(/^at:\/\/([^\/]+)/)?.[1]
+    const likedDid = subjectUri.match(/^at:\/\/([^\/]+)/)?.[1] ?? '';
 
-    if (!likedDid || !isSubscribedDid(likedDid)) return
+    if (!did || !isSubscribedDid(did)) return
 
     const fullUri = `at://${evt.did}/app.bsky.feed.like/${evt.commit.rkey}`
 
     const like = {
-      did: evt.did,
+      did,
       uri: fullUri,
       likedDid,
       indexedAt: new Date().toISOString(),
