@@ -49,7 +49,7 @@ export const handler = async (ctx: AppContext, params: QueryParams, requesterDid
           .getAuthorFeed({
             actor: likedDid,
             limit: Math.min(count + 10, 100), // 先頭リポストの対策で多めに取得しておく
-            filter: 'posts_no_replies',
+            filter: "posts_and_author_threads", // リプライ除外かつスレッド先頭ポスト含む
           })
           .then((res) => ({
             likedDid,
