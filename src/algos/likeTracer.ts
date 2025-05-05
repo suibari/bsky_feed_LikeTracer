@@ -48,7 +48,7 @@ export const handler = async (ctx: AppContext, params: QueryParams, requesterDid
         agent
           .getAuthorFeed({
             actor: likedDid,
-            limit: Math.min(count + 10, 100), // 先頭リポストの対策で多めに取得しておく
+            limit: 100,
             filter: "posts_and_author_threads", // リプライ除外かつスレッド先頭ポスト含む
           })
           .then((res) => ({
@@ -93,5 +93,8 @@ export const handler = async (ctx: AppContext, params: QueryParams, requesterDid
     feed: allPosts.map((item) => ({
       post: item.post.uri,
     })),
+    headers: {
+      'Content-Language': '*',
+    }
   };
 };
