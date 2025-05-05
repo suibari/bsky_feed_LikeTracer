@@ -7,7 +7,7 @@ import { agent } from '../login.js';
 export const shortname = 'likeTracer'
 
 export const handler = async (ctx: AppContext, params: QueryParams, requesterDid: string) => {
-  const PAGE_SIZE = 100;
+  const PAGE_SIZE = Math.min(params.limit ?? 100, 100);
   const limit = pLimit(10); // 同時fetch制限
 
   const now = new Date();
@@ -48,7 +48,7 @@ export const handler = async (ctx: AppContext, params: QueryParams, requesterDid
         agent
           .getAuthorFeed({
             actor: likedDid,
-            limit: Math.min(count + 10, 100), // 先頭リポストの対策で多めに取得しておく
+            limit: 100,
             filter: "posts_and_author_threads", // リプライ除外かつスレッド先頭ポスト含む
           })
           .then((res) => ({
@@ -92,6 +92,6 @@ export const handler = async (ctx: AppContext, params: QueryParams, requesterDid
     cursor: nextCursor,
     feed: allPosts.map((item) => ({
       post: item.post.uri,
-    })),
+    }))
   };
 };
