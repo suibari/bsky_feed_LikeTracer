@@ -33,6 +33,7 @@ export const handler = async (ctx: AppContext, params: QueryParams, requesterDid
     .select(['likedDid', 'indexedAt'])
     .where('did', '=', requesterDid)
     .orderBy('indexedAt', 'desc')
+    .limit(100) // いいね数が多すぎるとスループット低下するので、いったん最新100件いいねのみにする
     .execute();
 
   // 2. likedDidごとにlike数を集計
